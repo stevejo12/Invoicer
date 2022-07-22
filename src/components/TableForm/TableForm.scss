@@ -1,0 +1,48 @@
+.tableForm {
+  margin: 2rem 0;
+
+  td > * {
+    width: 100%;
+  }
+
+  .spantest {
+    display: inline-block;
+    width: 100%;
+    word-wrap: break-word;
+    border: 1px black solid;
+    padding: 1px 6px;
+  }
+
+  .tableForm__tableWrapper {
+    display: inline-table;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+
+    td, th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      word-wrap: break-word;
+    }
+
+    tr td:nth-child(2), tr th:nth-child(2){
+      width: 50%;
+    }
+
+    tr td:nth-child(1) {
+      width: 1%;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  td, th {
+    padding: 5px !important;
+  }
+
+  tr td:nth-child(2), tr th:nth-child(2){
+    width: 40% !important;
+  }
+}

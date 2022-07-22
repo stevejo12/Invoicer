@@ -1,0 +1,37 @@
+.invoice {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  input::-webkit-outer-spin-button, 
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .invoice__title {
+    display: block; // make sure the span is display block for margin
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .invoice__article {
+    gap: 2.5rem;
+
+    &.grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    &.grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+
+@media screen and (min-width: 768px) {
+  .invoice__article {
+    display: grid;
+  }
+}

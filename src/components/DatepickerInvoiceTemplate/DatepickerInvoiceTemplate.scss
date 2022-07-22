@@ -1,0 +1,30 @@
+.datepickerInvoiceTemplate__wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  .datepickerInvoiceTemplate__label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #112827;
+    text-transform: capitalize;
+    margin-bottom: 0.3rem;
+
+    .datepickerInvoiceTemplate__isRequired {
+      color: red;
+    }
+  }
+
+  .react-datepicker__input-container > input {
+    background-color: #f1f1f1;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
