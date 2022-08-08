@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 
-import InputInvoiceTemplate from '../../components/InputInvoiceTemplate/InputInvoiceTemplate';
-import DatepickerInvoiceTemplate from '../../components/DatepickerInvoiceTemplate/DatepickerInvoiceTemplate';
-
-import './Invoice.scss';
-import TableForm from '../../components/TableForm/TableForm';
 import { invoiceFormDefaultErrorValues, invoiceFormDefaultValues } from '../../constants/defaultValues';
 import Input from '../../components/Input/Input';
+
+import './Invoice.scss';
 
 // make sure the due date is not before the day of invoice date
 
@@ -26,12 +22,14 @@ const Invoice = () => {
   const handlePreviewInvoice = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log('handlepreviewinvoice triggered');
+
     // check all the error
     // if no more error message => redirect
     // else => shake error
   }
 
-  const handleChangeInputValue = (key: string, value: string) => {
+  const handleChangeInputValue = (key: string, value: string, isNumber: boolean) => {
     let errorMessage = 'Please enter your ';
 
     if (!value) {
@@ -48,11 +46,9 @@ const Invoice = () => {
 
     setFormItems({
       ...formItems,
-      [key]: value
+      [key]: isNumber ? parseInt(value, 10) : value
     })
   }
-
-  console.log(formItems);
 
   return (
     <div className="invoice">
@@ -64,119 +60,109 @@ const Invoice = () => {
       <form onSubmit={handlePreviewInvoice}>
         <fieldset className='invoice__fieldset'>
           <legend>Your Information</legend>
-          <Input
-            name='name'
-            value={formItems.name}
-            errorMessage={formItemsErrors.name}
-            onChangeInputValue={(key, value) => handleChangeInputValue(key, value)}
-          />
+          <article className='invoice__article grid-2'>
+            <Input
+              name='name'
+              value={formItems.name}
+              errorMessage={formItemsErrors.name}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            <Input
+              name='address'
+              value={formItems.address}
+              errorMessage={formItemsErrors.address}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+          </article>
+          <article className='invoice__article grid-3'>
+            <Input
+              name='email'
+              value={formItems.email}
+              errorMessage={formItemsErrors.email}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            <Input
+              name='website'
+              value={formItems.website}
+              errorMessage={formItemsErrors.website}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            {/* can be broken down into phone code and number later */}
+            {/* consider being a string (but not really) */}
+            <Input
+              name='phone'
+              inputType='number'
+              value={formItems.phone}
+              errorMessage={formItemsErrors.phone}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+          </article>
+          <article className='invoice__article grid-2'>
+            <Input
+              name='bankName'
+              value={formItems.bankName}
+              errorMessage={formItemsErrors.bankName}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            {/* considering to become string instead number */}
+            {/* to allow zero in front of the number like (0001) */}
+            <Input
+              name='bankAccount'
+              value={formItems.bankAccount}
+              errorMessage={formItemsErrors.bankAccount}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+          </article>
         </fieldset>
+        <fieldset className='invoice__fieldset'>
+          <legend>Client's Information</legend>
+          <article className='invoice__article grid-2'>
+            <Input
+              name='clientName'
+              label={`client's name`}
+              value={formItems.clientName}
+              errorMessage={formItemsErrors.clientName}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            <Input
+              name='address'
+              label={`client's address`}
+              value={formItems.address}
+              errorMessage={formItemsErrors.address}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+          </article>
+        </fieldset>
+        <fieldset className='invoice__fieldset'>
+          <legend>Invoice Information</legend>
+          <article className='invoice__article grid-3'>
+            <Input
+              name='invoiceNumber'
+              label={`invoice number`}
+              inputType="number"
+              value={formItems.invoiceNumber}
+              errorMessage={formItemsErrors.invoiceNumber}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            {/* need to change to seperate datepicker component */}
+            <Input
+              name='invoiceDate'
+              label={`invoice date`}
+              value={formItems.invoiceDate.toDateString()}
+              errorMessage={formItemsErrors.invoiceDate}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+            <Input
+              name='dueDate'
+              label={`due date`}
+              value={formItems.dueDate.toDateString()}
+              errorMessage={formItemsErrors.dueDate}
+              onChangeInputValue={(key, value, isNumber) => handleChangeInputValue(key, value, isNumber)}
+            />
+          </article>
+        </fieldset>
+        <input type="submit" className='invoice__button button--blue' value="Preview Invoice" />
       </form>
-      
-      {/* <article className='invoice__article grid-2'>
-        <InputInvoiceTemplate
-          category="name"
-          value={name}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-        />
-        <InputInvoiceTemplate
-          category="address"
-          value={address}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)}
-        />
-      </article>
-
-      <article className='invoice__article grid-3'>
-        <InputInvoiceTemplate
-          category="email"
-          inputType="email"
-          value={email}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-        />
-        <InputInvoiceTemplate
-          category="website"
-          inputType="url"
-          isRequired={false}
-          value={website}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setWebsite(e.target.value)}
-        />
-        <InputInvoiceTemplate
-          category="phone"
-          value={phone}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value)}
-        />
-      </article>
-
-      <article className='invoice__article grid-2'>
-        <InputInvoiceTemplate
-          placeholderText='bank name'
-          category="bankName"
-          value={bankName}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setBankName(e.target.value)}
-        />
-        <InputInvoiceTemplate
-          placeholderText='bank account'
-          category="bankAccount"
-          value={bankAccount}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setBankAccount(e.target.value)}
-        />
-      </article>
-
-      <article className='invoice__article grid-2'>
-        <InputInvoiceTemplate
-          placeholderText="client's name"
-          category="clientName"
-          value={clientName}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setClientName(e.target.value)}
-        />
-        <InputInvoiceTemplate
-          placeholderText="client's address"
-          category="clientAddress"
-          value={clientAddress}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setClientAddress(e.target.value)}
-        />
-      </article>
-
-      <article className='invoice__article grid-3'>
-        <InputInvoiceTemplate
-          placeholderText="Invoice Number"
-          category="invoiceNumber"
-          value={invoiceNumber}
-          callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setInvoiceNumber(e.target.value)}
-        />
-        <DatepickerInvoiceTemplate
-          placeholderText='invoice date'
-          category="invoiceDate"
-          selected={invoiceDate}
-          minDate={new Date()}
-          onChange={(date: Date) => handleChangeDate(date)}
-        />
-        <DatepickerInvoiceTemplate 
-          placeholderText="due date"
-          category="dueDate"
-          selected={dueDate}
-          onChange={(date: Date) => setDueDate(date)}
-          minDate={invoiceDate}
-        />
-      </article>
-      
-
-      <TableForm 
-        data={allItem} 
-        callbackNumberFunction={(index: number, e: React.ChangeEvent<HTMLInputElement>) => handleNumbersChange(index)(e)}
-        callbackDescriptionFunction={(index: number, e: React.FormEvent<HTMLSpanElement>) => handleItemChange(index)(e)}
-        handleAddItem={handleAddItem}
-      />
-
-      <InputInvoiceTemplate
-        placeholderText='additional notes'
-        category="additionalNotes"
-        inputTypeElementTag='textarea'
-        value={notes}
-        callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setNotes(e.target.value)}
-      />
-
-      <button onClick={handlePreviewInvoice} className='invoice__button button--blue'>Preview Invoice</button> */}
     </div>
   )
 }

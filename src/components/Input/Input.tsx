@@ -1,35 +1,45 @@
 import React from 'react';
 
+import './Input.scss';
+
 interface IProps {
   name: string;
   label?: string;
-  value: string;
+  inputType?: "text" | "number";
+  value: string | number;
   errorMessage: string;
-  onChangeInputValue: (key: string, newValue: string) => void;
+  onChangeInputValue: (key: string, newValue: string, isNumber: boolean) => void;
 }
 
 /* 
-  * Input Component
+  * Input Component (for text and number input type only)
   * @params
-  *   
+  *   name => similar to invoiceForm key name (for input onChange)
+  *   label => label's name (opt. if not the same as name)
+  *   inputType = ["text", "number"]
+  *   value => value displayed
+  *   errorMessage => message when there is an error with the value
+  *   onChangeInputValue => Function to update the value in input field.
 */
-const Input = ({ name, label, value, errorMessage, onChangeInputValue }: IProps) => {
+const Input = ({ name, label, inputType="text", value, errorMessage, onChangeInputValue }: IProps) => {
   const inputLabel = label || name;
+  const isNumber = inputType === 'number';
 
   return (
-    <div>
+    <div className='input__wrapper'>
       {/* label */}
-      <label>{inputLabel}</label>
+      <label className='input__label'>{inputLabel}</label>
       {/* input field */}
       <input
+        className={`input__inputField ${errorMessage ? '' : 'input__fieldMargin'}`}
         name={name}
-        type="text" 
-        value={value} 
+        type={inputType} 
+        value={value || ''} 
         placeholder={`Enter your ${inputLabel}`}
-        onChange={(e) => onChangeInputValue(e.target.name, e.target.value)}
+        onChange={(e) => onChangeInputValue(e.target.name, e.target.value, isNumber)}
       />
       {/* error text */}
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className='input__errorMessage'>{errorMessage}</p>}
     </div>
   )
 }
