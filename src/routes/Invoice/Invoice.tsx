@@ -6,6 +6,8 @@ import DatepickerInvoiceTemplate from '../../components/DatepickerInvoiceTemplat
 
 import './Invoice.scss';
 import TableForm from '../../components/TableForm/TableForm';
+import { invoiceFormDefaultErrorValues, invoiceFormDefaultValues } from '../../constants/defaultValues';
+import Input from '../../components/Input/Input';
 
 // make sure the due date is not before the day of invoice date
 
@@ -17,95 +19,61 @@ interface TableData {
 }
 
 const Invoice = () => {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [bankName, setBankName] = useState("");
-  const [bankAccount, setBankAccount] = useState("");
-  const [website, setWebsite] = useState("");
-  const [clientName, setClientName] = useState("");
-  const [clientAddress, setClientAddress] = useState("");
-  const [invoiceNumber, setInvoiceNumber] = useState("");
-  const [invoiceDate, setInvoiceDate] = useState<Date | null>(new Date());
-  const [dueDate, setDueDate] = useState<Date | null>(new Date());
-  const [notes, setNotes] = useState("");
-  const [allItem, setAllItem] = useState<TableData[]>([{
-    description: '',
-    quantity: 0,
-    price: 0,
-    amount: 0,
-  }]);
+  // const formItems: InvoiceFormData = invoiceFormDefaultValues;
+  const [formItems, setFormItems] = useState<InvoiceFormData>(invoiceFormDefaultValues);
+  const [formItemsErrors, setFormItemsErrors] = useState<InvoiceFormDataErrorMessage>(invoiceFormDefaultErrorValues);
 
-  const handleChangeDate = (date: Date) => {
-    setInvoiceDate(date);
+  const handlePreviewInvoice = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    if (dueDate && date > dueDate) {
-      setDueDate(date);
-    }
+    // check all the error
+    // if no more error message => redirect
+    // else => shake error
   }
 
-  const handleNumbersChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newArr: TableData[] = [...allItem];
-    const newItem: TableData = newArr[index];
-    const numberFieldOptions = ["quantity", "price"];
+  const handleChangeInputValue = (key: string, value: string) => {
+    let errorMessage = 'Please enter your ';
 
-    // to make sure input[type:number] value not 0 in front
-    if (
-      event.target.value.charAt(0) === "0" &&
-      numberFieldOptions.indexOf(event.target.name) > -1
-    ) {
-      event.target.value = event.target.value.substring(1);
+    if (!value) {
+      setFormItemsErrors({
+        ...formItemsErrors,
+        [key]: errorMessage + key
+      })
+    } else {
+      setFormItemsErrors({
+        ...formItemsErrors,
+        [key]: ''
+      })
     }
 
-    switch(event.target.name) {
-      case "quantity":
-        newItem["quantity"] = +event.target.value || 0;
-        break;
-      case "price":
-        newItem["price"] = +event.target.value || 0;
-    }
-
-    newItem["amount"] = newItem["quantity"] * newItem["price"];
-
-    setAllItem(newArr);
+    setFormItems({
+      ...formItems,
+      [key]: value
+    })
   }
 
-  const handleItemChange = (index: number) => (event: React.FormEvent<HTMLSpanElement>) => {
-    event.preventDefault();
-    const newArr: TableData[] = [...allItem];
-    const newItem: TableData = newArr[index];
-   
-    newItem["description"] = event.currentTarget.textContent || "";
-
-    setAllItem(newArr);
-  } 
-
-  const handleAddItem = () => {
-    const newArr: TableData[] = [...allItem];
-    const newItem: TableData = {
-      description: '',
-      quantity: 0,
-      price: 0,
-      amount: 0,
-    }
-
-    newArr.push(newItem);
-    
-    setAllItem(newArr); 
-  }
-
-  const handlePreviewInvoice = () => {
-    navigate('/invoice');
-  }
+  console.log(formItems);
 
   return (
     <div className="invoice">
-      <span className="invoice__title">Invoice Form</span>
-      <span>* required</span>
+      <div className='invoice__titleWrapper'>
+        <span className="invoice__title">Invoice Form</span>
+        <span className='invoice__titleRequired'>* required</span>
+      </div>
+
+      <form onSubmit={handlePreviewInvoice}>
+        <fieldset className='invoice__fieldset'>
+          <legend>Your Information</legend>
+          <Input
+            name='name'
+            value={formItems.name}
+            errorMessage={formItemsErrors.name}
+            onChangeInputValue={(key, value) => handleChangeInputValue(key, value)}
+          />
+        </fieldset>
+      </form>
       
-      <article className='invoice__article grid-2'>
+      {/* <article className='invoice__article grid-2'>
         <InputInvoiceTemplate
           category="name"
           value={name}
@@ -208,7 +176,7 @@ const Invoice = () => {
         callbackFunction={(e: React.ChangeEvent<HTMLInputElement>) => setNotes(e.target.value)}
       />
 
-      <button onClick={handlePreviewInvoice} className='invoice__button button--blue'>Preview Invoice</button>
+      <button onClick={handlePreviewInvoice} className='invoice__button button--blue'>Preview Invoice</button> */}
     </div>
   )
 }
