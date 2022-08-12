@@ -1,0 +1,37 @@
+.phoneInput__wrapper {
+  display: flex;
+  flex-direction: row;
+
+  .phoneInput__phoneNumberWrapper, .phoneInput__phoneCodeWrapper {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      padding: 5px;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .phoneInput__phoneCodeInputWrapper {
+    max-width: 100px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+  }
+
+  .phoneInput__phoneNumberWrapper {
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .phoneInput__phoneCodeInputWrapper {
+    max-width: 122px !important;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .phoneInput__phoneCodeInputWrapper {
+    max-width: 144px !important;
+  }
+}
