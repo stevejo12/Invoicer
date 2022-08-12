@@ -14,17 +14,24 @@ const invoiceFormItemsDefaultErrorValues: InvoiceFormTableDataErrorMessage = {
   amount: ''
 }
 
+const PhoneCodeDefaultValues: IPhoneCode = {
+  id: 1,
+  name: '',
+  phone_code: '',
+}
+
 const invoiceFormDefaultValues: InvoiceFormData = {
   name: '',
   address: '',
   email: '',
-  phone: 0,
+  phoneCode: PhoneCodeDefaultValues,
+  phoneNumber: '',
   bankName: '',
   bankAccount: '',
   website: '',
   clientName: '',
   clientAddress: '',
-  invoiceNumber: 0,
+  invoiceNumber: '',
   invoiceDate: today,
   dueDate: today,
   items: [invoiceFormItemsDefaultValues],
@@ -35,7 +42,8 @@ const invoiceFormDefaultErrorValues: InvoiceFormDataErrorMessage = {
   name: '',
   address: '',
   email: '',
-  phone: '',
+  phoneCode: '',
+  phoneNumber: '',
   bankName: '',
   bankAccount: '',
   website: '',

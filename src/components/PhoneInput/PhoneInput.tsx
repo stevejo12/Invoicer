@@ -3,18 +3,17 @@ import phoneData from "../../phoneData.json";
 
 import "./PhoneInput.scss";
 
-const PhoneInput = () => {
+interface IProps {
+  phoneCode: IPhoneCode;
+  phoneNumber: string;
+  onChangeValue: (key: string, newValue: string) => void
+  onChangePhoneCode: (data: IPhoneCode) => void
+}
+
+const PhoneInput = ({ phoneCode, phoneNumber, onChangePhoneCode, onChangeValue }: IProps) => {
   const [phoneCodeandCountryList, setPhoneCodeandCountryList] = useState<
-    IPhoneCodeandCountry[]
+    IPhoneCode[]
   >([]);
-  const [phoneCodeSelected, setPhoneCodeSelected] = useState<
-    IPhoneCodeandCountry
-  >({
-    id: 1,
-    name: "Indonesiaaaa",
-    phone_code: "+62"
-  });
-  const [phoneNumber, setPhoneNumber] = useState<number>();
 
   useEffect(() => {
     // fetch list of phone code and country. then setphonecode
@@ -25,10 +24,12 @@ const PhoneInput = () => {
     var result = phoneData.data.filter((obj) => {
       return obj.id === 1;
     });
-    setPhoneCodeSelected(result[0]);
+    
+    // change the default phone code to ID +62
+    if (result.length > 0) {
+      onChangePhoneCode(result[0])
+    }
   }, []);
-
-  console.log(phoneCodeSelected);
 
   return (
     <div className="phoneInput__wrapper">
@@ -37,8 +38,9 @@ const PhoneInput = () => {
         <div className="phoneInput__phoneCodeInputWrapper">
           <label>Phone Code</label>
           <input
+            name="phoneCode"
             type="text"
-            value={`(${phoneCodeSelected.phone_code})`}
+            value={`(${phoneCode.phone_code})`}
             readOnly
           />
         </div>
@@ -49,10 +51,11 @@ const PhoneInput = () => {
       <div className="phoneInput__phoneNumberWrapper">
         <label>Phone Number</label>
         <input
+          name="phoneNumber"
           type="number"
           value={phoneNumber}
           placeholder="Enter your phoneNumber"
-          onChange={(e) => setPhoneNumber(parseInt(e.target.value, 10))}
+          onChange={(e) => onChangeValue(e.target.name, e.target.value)}
         />
       </div>
     </div>

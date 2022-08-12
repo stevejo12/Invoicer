@@ -8,7 +8,7 @@ interface IProps {
   inputType?: "text" | "number";
   value: string | number;
   errorMessage: string;
-  onChangeInputValue: (key: string, newValue: string, isNumber: boolean) => void;
+  onChangeInputValue: (key: string, newValue: string) => void;
 }
 
 /* 
@@ -36,7 +36,7 @@ const Input = ({ name, label, inputType="text", value, errorMessage, onChangeInp
         type={inputType} 
         value={value || ''} 
         placeholder={`Enter your ${inputLabel}`}
-        onChange={(e) => onChangeInputValue(e.target.name, e.target.value, isNumber)}
+        onChange={(e) => onChangeInputValue(e.target.name, e.target.value)}
       />
       {/* error text */}
       {errorMessage && <p className='input__errorMessage'>{errorMessage}</p>}

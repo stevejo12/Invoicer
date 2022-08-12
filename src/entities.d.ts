@@ -14,17 +14,21 @@ interface InvoiceFormTableDataErrorMessage {
   amount: string;
 }
 
+// phoneNumber => uses string because of join possibility with phoneCode
+// invoiceNumber => uses string because of allowing "0" in front with list of numbers
+// both phoneNumber and invoiceNumber will not allow any alphabets
 interface InvoiceFormData {
   name: string;
   address: string;
   email: string;
-  phone: number;
+  phoneCode: IPhoneCode,
+  phoneNumber: string,
   bankName: string;
   bankAccount: string;
   website: string;
   clientName: string;
   clientAddress: string;
-  invoiceNumber: number;
+  invoiceNumber: string;
   invoiceDate: Date;
   dueDate: Date;
   items: InvoiceFormTableData[];
@@ -35,7 +39,8 @@ interface InvoiceFormDataErrorMessage {
   name: string;
   address: string;
   email: string;
-  phone: string;
+  phoneCode: string;
+  phoneNumber:string;
   bankName: string;
   bankAccount: string;
   website: string;
@@ -48,7 +53,7 @@ interface InvoiceFormDataErrorMessage {
   notes: string;
 }
 
-interface IPhoneCodeandCountry {
+interface IPhoneCode {
   id: number;
   name: string;
   phone_code: string;
