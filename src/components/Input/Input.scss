@@ -1,0 +1,23 @@
+.input__wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .input__label {
+    padding: 0 5px;
+    margin-bottom: 0.2rem;
+  }
+
+  .input__inputField {
+    padding: 5px;
+
+    &.input__fieldMargin {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .input__errorMessage {
+    color: red;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+}

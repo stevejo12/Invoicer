@@ -1,9 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Invoice from './routes/Invoice/Invoice';
-import Main from './Main';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Invoice from "./routes/Invoice/Invoice";
+import Main from "./Main";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   return (

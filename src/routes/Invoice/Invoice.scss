@@ -1,7 +1,6 @@
 .invoice {
   display: flex;
   flex-direction: column;
-  text-align: center;
 
   input::-webkit-outer-spin-button, 
   input::-webkit-inner-spin-button {
@@ -9,11 +8,25 @@
     margin: 0;
   }
 
-  .invoice__title {
-    display: block; // make sure the span is display block for margin
-    font-size: 1.5rem;
-    line-height: 2rem;
-    margin-bottom: 1rem;
+  .invoice__titleWrapper {
+    text-align: center;
+
+    .invoice__title {
+      display: block; // make sure the span is display block for margin
+      font-size: 1.5rem;
+      line-height: 2rem;
+      // margin-bottom: 0.3rem;
+    }
+  
+    .invoice__titleRequired {
+      color: red;
+      font-size: 0.9rem;
+    }
+  }
+
+  .invoice__fieldset {
+    padding: 20px;
+    margin: 1rem 0;
   }
 
   .invoice__article {
@@ -26,6 +39,13 @@
     &.grid-3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+  }
+
+  .invoice__button {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    font-size: 1.2rem;
   }
 }
 
