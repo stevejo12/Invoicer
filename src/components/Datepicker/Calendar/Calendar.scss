@@ -1,0 +1,7 @@
+.calendar__wrapper {
+  display: none;
+
+  &.show {
+    display: flex;
+  }
+}

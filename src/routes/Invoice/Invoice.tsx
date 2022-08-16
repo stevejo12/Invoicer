@@ -8,6 +8,7 @@ import Input from "../../components/Input/Input";
 import PhoneInput from "../../components/PhoneInput/PhoneInput";
 
 import "./Invoice.scss";
+import Datepicker from "../../components/Datepicker/Datepicker";
 
 // make sure the due date is not before the day of invoice date
 
@@ -30,10 +31,7 @@ const Invoice = () => {
     // else => shake error
   };
 
-  const handleChangeInputValue = (
-    key: string,
-    value: string,
-  ) => {
+  const handleChangeInputValue = (key: string, value: string) => {
     let errorMessage = "Please enter your ";
 
     if (!value) {
@@ -58,8 +56,8 @@ const Invoice = () => {
     setFormItems({
       ...formItems,
       phoneCode: value
-    })
-  }
+    });
+  };
 
   return (
     <div className="invoice">
@@ -107,11 +105,11 @@ const Invoice = () => {
               }
             />
           </article>
-          <PhoneInput 
-            phoneCode={formItems.phoneCode} 
+          <PhoneInput
+            phoneCode={formItems.phoneCode}
             phoneNumber={formItems.phoneNumber}
             onChangePhoneCode={(value) => handleChangePhoneCode(value)}
-            onChangeValue={(key, value) => handleChangeInputValue(key, value)}  
+            onChangeValue={(key, value) => handleChangeInputValue(key, value)}
           />
           <article className="invoice__article grid-2">
             <Input
@@ -179,6 +177,12 @@ const Invoice = () => {
               onChangeInputValue={(key, value) =>
                 handleChangeInputValue(key, value)
               }
+            />
+            <Datepicker
+              label={`invoice date`}
+              name="invoiceDate"
+              value={formItems.invoiceDate}
+              onChange={() => {}}
             />
             <Input
               name="dueDate"

@@ -1,0 +1,14 @@
+.datepicker__wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .datepicker__label {
+    padding: 0 5px;
+    margin-bottom: 0.2rem;
+  }
+
+  .datepicker__inputField {
+    padding: 5px;
+    margin-bottom: 1rem;
+  }
+}
