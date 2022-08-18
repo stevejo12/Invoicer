@@ -29,6 +29,7 @@ const Datepicker = ({ label, name, value, onChange }: IProps) => {
       />
       <Calendar
         onClose={() => handleShowCalendar(false)}
+        dateSelected={value}
         show={showCalendar}
         name={name}
       />
