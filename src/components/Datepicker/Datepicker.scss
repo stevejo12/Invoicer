@@ -1,0 +1,24 @@
+.datepicker__wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  .datepicker__label {
+    text-transform: capitalize;
+    margin-bottom: 0.3rem;
+
+    .datepicker__isRequired {
+      color: red;
+    }
+  }
+
+  .react-datepicker__input-container > input {
+    padding: 5px;
+    margin-bottom: 0.5rem;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

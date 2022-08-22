@@ -8,11 +8,9 @@ import Input from "../../components/Input/Input";
 import PhoneInput from "../../components/PhoneInput/PhoneInput";
 
 import "./Invoice.scss";
-
-// make sure the due date is not before the day of invoice date
+import Datepicker from "../../components/Datepicker/Datepicker";
 
 const Invoice = () => {
-  // const formItems: InvoiceFormData = invoiceFormDefaultValues;
   const [formItems, setFormItems] = useState<InvoiceFormData>(
     invoiceFormDefaultValues
   );
@@ -30,10 +28,7 @@ const Invoice = () => {
     // else => shake error
   };
 
-  const handleChangeInputValue = (
-    key: string,
-    value: string,
-  ) => {
+  const handleChangeInputValue = (key: string, value: string) => {
     let errorMessage = "Please enter your ";
 
     if (!value) {
@@ -54,12 +49,37 @@ const Invoice = () => {
     });
   };
 
+  const handleChangeDate = (key: string, value: Date | null) => {
+    let changeDueDate = false;
+
+    if (key === 'invoiceDate' && value !== null) {
+      if (value > formItems.dueDate) {
+        changeDueDate = true;
+      }
+    }
+
+    if (value !== null) {
+      if (key !== 'dueDate') {
+        setFormItems({
+          ...formItems,
+          [key]: value,
+          dueDate: (changeDueDate && value !== null) ? value : formItems.dueDate
+        });
+      } else {
+        setFormItems({
+          ...formItems,
+          [key]: value,
+        });
+      }
+    }
+  }
+
   const handleChangePhoneCode = (value: IPhoneCode) => {
     setFormItems({
       ...formItems,
       phoneCode: value
-    })
-  }
+    });
+  };
 
   return (
     <div className="invoice">
@@ -107,15 +127,16 @@ const Invoice = () => {
               }
             />
           </article>
-          <PhoneInput 
-            phoneCode={formItems.phoneCode} 
+          <PhoneInput
+            phoneCode={formItems.phoneCode}
             phoneNumber={formItems.phoneNumber}
             onChangePhoneCode={(value) => handleChangePhoneCode(value)}
-            onChangeValue={(key, value) => handleChangeInputValue(key, value)}  
+            onChangeValue={(key, value) => handleChangeInputValue(key, value)}
           />
           <article className="invoice__article grid-2">
             <Input
               name="bankName"
+              label="bank name"
               value={formItems.bankName}
               errorMessage={formItemsErrors.bankName}
               onChangeInputValue={(key, value) =>
@@ -126,6 +147,7 @@ const Invoice = () => {
             {/* to allow zero in front of the number like (0001) */}
             <Input
               name="bankAccount"
+              label="bank account"
               value={formItems.bankAccount}
               errorMessage={formItemsErrors.bankAccount}
               onChangeInputValue={(key, value) =>
@@ -170,24 +192,19 @@ const Invoice = () => {
                 handleChangeInputValue(key, value)
               }
             />
-            {/* need to change to seperate datepicker component */}
-            <Input
-              name="invoiceDate"
-              label={`invoice date`}
-              value={formItems.invoiceDate.toDateString()}
-              errorMessage={formItemsErrors.invoiceDate}
-              onChangeInputValue={(key, value) =>
-                handleChangeInputValue(key, value)
-              }
+            <Datepicker 
+              placeholderText="invoice date"
+              category="invoiceDate"
+              selected={formItems.invoiceDate}
+              onChange={(key, newDate) => handleChangeDate(key, newDate)}
+              minDate={new Date()}
             />
-            <Input
-              name="dueDate"
-              label={`due date`}
-              value={formItems.dueDate.toDateString()}
-              errorMessage={formItemsErrors.dueDate}
-              onChangeInputValue={(key, value) =>
-                handleChangeInputValue(key, value)
-              }
+            <Datepicker 
+              placeholderText="due date"
+              category="dueDate"
+              selected={formItems.dueDate}
+              onChange={(key, newDate) => handleChangeDate(key, newDate)}
+              minDate={formItems.invoiceDate}
             />
           </article>
         </fieldset>
