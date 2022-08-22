@@ -58,11 +58,20 @@ const Invoice = () => {
       }
     }
 
-    setFormItems({
-      ...formItems,
-      [key]: value,
-      dueDate: (changeDueDate && value !== null) ? value : formItems.dueDate
-    });
+    if (value !== null) {
+      if (key !== 'dueDate') {
+        setFormItems({
+          ...formItems,
+          [key]: value,
+          dueDate: (changeDueDate && value !== null) ? value : formItems.dueDate
+        });
+      } else {
+        setFormItems({
+          ...formItems,
+          [key]: value,
+        });
+      }
+    }
   }
 
   const handleChangePhoneCode = (value: IPhoneCode) => {
